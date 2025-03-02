@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script> 
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: #ddd; 
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        .section {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <h1>Lab 2: Objects</h1>
+    </div>
+
+    <script>
+        class MovingCircle {
+            constructor(x, y, speed, size) {
+                this.x = x;
+                this.y = y;
+                this.speed = speed;
+                this.size = size;
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > width) {
+                    this.x = 0;
+                    console.log("Circle reset!");
+                }
+            }
+
+            display() {
+                fill(255, 0, 0);
+                ellipse(this.x, this.y, this.size);
+            }
+        }
+
+        let circles = [];
+
+        function setup() {
+            createCanvas(300, 150);
+            background(20);
+
+            for (let i = 0; i < 3; i++) {
+                circles.push(new MovingCircle(0, (i + 1) * 40, random(0.5, 2), 30));
+            }
+        }
+
+        function draw() {
+            clear();
+            background(20);
+            
+            for (let circle of circles) {
+                circle.update();
+                circle.display();
+            }
+        }
+    </script>
+
+</body>
+</html>

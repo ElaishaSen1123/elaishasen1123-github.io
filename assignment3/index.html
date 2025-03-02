@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 3</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script> 
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: #ddd;
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+        }
+        .section {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        input {
+            padding: 8px;
+            font-size: 16px;
+            width: 250px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <h1>Assignment 3: Text Adventure</h1>
+        <p>Type a listed option and and press ENTER to interact.</p>
+    </div>
+
+    <script>
+        let inputBox;
+        let storyText = "You wake up in a dark forest.";
+        let optionsText = "Options: walk, look";
+        let gameState = 0;
+
+        function setup() {
+            createCanvas(400, 200);
+            background(20);
+            textAlign(CENTER, CENTER);
+            textSize(16);
+
+            let inputContainer = createDiv();
+            inputContainer.class("input-container");
+
+            inputBox = createInput("");
+            inputBox.parent(inputContainer);
+            inputBox.size(250);
+            inputBox.changed(processInput);
+        }
+
+        function draw() {
+            background(20);
+            fill(255);
+            text(storyText, width / 2, height / 2 - 20);
+            text(optionsText, width / 2, height / 2 + 20);
+        }
+
+        function processInput() {
+            let userInput = inputBox.value().toLowerCase();
+            inputBox.value(""); 
+
+            if (gameState === 0 && userInput === "walk") {
+                storyText = "You walk deeper into the forest and hear rustling.";
+                optionsText = "Options: run, hide";
+                gameState = 1;
+            } else if (gameState === 0 && userInput === "look") {
+                storyText = "You see tall trees and a narrow path ahead.";
+                optionsText = "Options: walk";
+            } else if (gameState === 1 && userInput === "run") {
+                storyText = "You run and find a small cabin.";
+                optionsText = "Options: enter, knock";
+                gameState = 2;
+            } else if (gameState === 1 && userInput === "hide") {
+                storyText = "You hide behind a tree. The rustling stops.";
+                optionsText = "Options: run";
+            } else if (gameState === 2 && userInput === "enter") {
+                storyText = "You step inside the cabin. The door locks behind you.";
+                optionsText = "Click to continue...";
+                gameState = 3;
+            } else if (gameState === 2 && userInput === "knock") {
+                storyText = "You knock on the door. No response.";
+                optionsText = "Options: enter";
+            } else {
+                storyText = "Invalid choice.";
+            }
+        }
+
+        function mousePressed() {
+            if (gameState === 3) {
+                storyText = "You see a note: 'You are not alone...'";
+                optionsText = "";
+            }
+        }
+    </script>
+
+</body>
+</html>

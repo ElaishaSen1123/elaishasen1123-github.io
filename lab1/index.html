@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script> 
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: #ddd; 
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        .section {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <h1>Lab 1: Patterns from Iteration</h1>
+    </div>
+
+        <script>
+            let x = 0;
+
+            function setup() {
+                createCanvas(200, 100);
+                background(20);
+            }
+
+            function draw() {
+                clear();
+                background(20);
+                for (let i = 0; i < 3; i++) {
+                    let y = (i + 1) * 25; 
+                    ellipse(x, y, 20, 20);
+                }
+
+                x += 0.5; 
+                
+                if (x > width) {
+                    console.log("Circles reset to the start!");
+                    x = 0;
+                }
+            }
+        </script>
+
+</body>
+</html>

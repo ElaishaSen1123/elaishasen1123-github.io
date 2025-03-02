@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.dom.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: #ddd;
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+        .section {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <h1>Lab 3: GUI</h1>
+        <p>Use the dropdown to change the shape and radio buttons to change the color.  
+           Click to restart, Spacebar to pause/resume.</p>
+    </div>
+
+    <script>
+        let shape;
+        let colorRadio, shapeMenu;
+        let isPaused = false;
+
+        class MovingShape {
+            constructor(x, y, shapeType) {
+                this.x = x;
+                this.y = y;
+                this.shapeType = shapeType;
+                this.color = [255, 0, 0]; 
+            }
+
+           
+            update() {
+                if (!isPaused) {
+                    this.x += 1; 
+                    if (this.x > width) {
+                        this.x = 0; 
+                        console.log("Shape reset!");
+                    }
+                }
+            }
+
+
+            display() {
+                fill(this.color);
+                if (this.shapeType === "circle") {
+                    ellipse(this.x, this.y, 50);
+                } else {
+                    rect(this.x - 25, this.y - 25, 50, 50);
+                }
+            }
+        }
+
+        function setup() {
+            createCanvas(400, 200);
+            background(20);
+
+      
+            shape = new MovingShape(0, height / 2, "circle");
+
+            colorRadio = createRadio();
+            colorRadio.option("Red");
+            colorRadio.option("Green");
+            colorRadio.option("Blue");
+            colorRadio.position(200, height + 40);
+            colorRadio.selected("Red");
+            colorRadio.changed(updateColor);
+
+            shapeMenu = createSelect();
+            shapeMenu.option("Circle");
+            shapeMenu.option("Square");
+            shapeMenu.position(200, height + 70);
+            shapeMenu.selected("Circle");
+            shapeMenu.changed(updateShape);
+        }
+
+        function draw() {
+            clear();
+            background(20);
+
+            shape.update();
+            shape.display();
+        }
+
+        function updateColor() {
+            let colorChoice = colorRadio.value();
+            let colorValue;
+            if (colorChoice === "Red") colorValue = [255, 0, 0];
+            if (colorChoice === "Green") colorValue = [0, 255, 0];
+            if (colorChoice === "Blue") colorValue = [0, 0, 255];
+
+            shape.color = colorValue;
+            console.log("Color updated:", colorChoice);
+        }
+
+        function updateShape() {
+            shape.shapeType = shapeMenu.value().toLowerCase();
+            console.log("Shape updated:", shape.shapeType);
+        }
+
+        function keyPressed() {
+            if (key === " ") {
+                isPaused = !isPaused;
+                console.log(isPaused ? "Paused" : "Resumed");
+            }
+        }
+        
+        function mousePressed() {
+            shape.x = 0;
+            console.log("Shape reset to start!");
+        }
+    </script>
+
+</body>
+</html>
