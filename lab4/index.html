@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 4: Media Elements</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #121212;
+      color: #ddd;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+    .section {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    video,
+    img {
+      margin: 20px auto;
+      border-radius: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h1>Lab 4: Media Elements</h1>
+    <p>This page demonstrates using createImg() and a native HTML video tag.</p>
+  </div>
+
+  <!-- I couldnt figure out how to show a video using P5 it kept giving me a CORS issue -- my workaround was to learn about iFrame and thats how Im able to show my video  -->
+  <video width="400" height="300" controls muted autoplay loop>
+    <source src="car.mp4" type="video/mp4" />
+  </video>
+
+  <script>
+    let myImage;
+
+    function setup() {
+      noCanvas();
+
+      myImage = createImg("../images/car.jpg");
+      myImage.size(300, 200);
+      myImage.style("display", "block");
+      myImage.style("margin", "20px auto");
+      myImage.style("border-radius", "10px");
+    }
+  </script>
+</body>
+</html>

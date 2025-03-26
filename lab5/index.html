@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lab 5: Arrays + Particle System</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.dom.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #121212;
+      color: #ddd;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+    .section {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+    .output {
+      margin-top: 20px;
+      font-family: monospace;
+      color: #8bc34a;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h1>Lab 5: Arrays + Particle System</h1>
+    <p>This page demonstrates working with arrays, objects, DOM elements, and array methods in p5.js.</p>
+    <div id="array-output" class="output"></div>
+    <div id="loop-output" class="output"></div>
+  </div>
+
+  <script>
+    // References:
+    // 1. arrays tutorial - https://www.w3schools.com/js/js_arrays.asp
+    // 2. Particle system example - https://editor.p5js.org/codingtrain/sketches/D4ty3DgZB
+
+    // I'm creating an array to hold particles (each one will be an object)
+    let particles = [];
+
+    // These are other example arrays to demonstrate array methods
+    let words = ["Hello", "World", "From", "p5.js"];
+    let numbers = [1, 2, 3, 4, 5];
+    let tools = ["join()", "concat()", "for loop", "splice()"];
+
+    // I’ll use these later to update HTML content on the page
+    let infoP, loopP;
+
+    // This is a class for the particles I want to animate
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = random(-1, 1); 
+        this.vy = random(-2, -0.5); 
+        this.alpha = 255;
+      }
+
+      // This updates the position and fades the particle
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= 2; 
+      }
+
+      // This checks if a particle is invisible (should be removed)
+      isDead() {
+        return this.alpha <= 0;
+      }
+
+      // This draws the particle on the screen
+      show() {
+        noStroke();
+        fill(255, this.alpha); // white with transparency
+        ellipse(this.x, this.y, 10);
+      }
+    }
+
+    function setup() {
+      createCanvas(400, 200);
+
+      // I'm creating 10 starting particles
+      for (let i = 0; i < 10; i++) {
+        particles.push(new Particle(random(width), random(height)));
+      }
+
+      // These are my text output areas
+      infoP = select('#array-output');
+      loopP = select('#loop-output');
+
+      // I'm combining two arrays and displaying them using .join()
+      let combined = words.concat(numbers);
+      let joined = combined.join(" | ");
+      infoP.html("Combined & Joined Array: " + joined);
+
+      // I'm looping through the 'tools' array using a for loop
+      let loopText = "Array Tools Used: ";
+      for (let i = 0; i < tools.length; i++) {
+        loopText += tools[i];
+        if (i < tools.length - 1) loopText += ", ";
+      }
+      loopP.html(loopText);
+    }
+
+    function draw() {
+      background(30); // dark background
+
+      // I’m looping backward through the particles array to safely remove items
+      for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.update();
+        p.show();
+
+        if (p.isDead()) {
+          particles.splice(i, 1); 
+        }
+      }
+
+      // Every few frames, I add a new particle
+      if (frameCount % 10 === 0) {
+        particles.push(new Particle(random(width), height));
+      }
+    }
+  </script>
+</body>
+</html>
